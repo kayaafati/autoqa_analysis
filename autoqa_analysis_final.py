@@ -146,12 +146,12 @@ df_a = pd.read_csv(MODEL_A_PATH)
 df_b = pd.read_csv(MODEL_B_PATH)
 df_out = pd.read_csv(OUTCOMES_PATH)
 
-# sanity checks
+
 required_id = "record_id"
 if required_id not in df_a.columns or required_id not in df_b.columns or required_id not in df_out.columns:
     raise ValueError("record_id column is required in all files.")
 
-# item columns
+
 binary_items = [f"item_{i}_answer" for i in range(1, 17)]
 quant_comment_items = [f"item_{i}_comment" for i in range(17, 23)]
 text_support_suffixes = ["question", "why", "examples", "instead"]
@@ -160,7 +160,6 @@ for col in binary_items:
     if col not in df_a.columns or col not in df_b.columns:
         raise ValueError(f"Missing binary item column: {col}")
 
-# Merge
 merged = (
     df_a.merge(df_b, on="record_id", suffixes=("_a", "_b"))
         .merge(df_out, on="record_id", how="left")
